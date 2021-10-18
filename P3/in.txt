@@ -1,0 +1,4 @@
+a e i o u 0 1 2 3 4 5 aeiou
+a e i o u 0 1 2 3 4 5 12345
+a b c d e aabbccddee
+a b c d e &
