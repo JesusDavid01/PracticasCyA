@@ -1,0 +1,4 @@
+aeiou != ab 
+12345 != ab 
+aabbccddee > ab 
+ != ab 
