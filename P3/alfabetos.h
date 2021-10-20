@@ -3,17 +3,17 @@
 // Grado en Ingeniería Informática
 // Asignatura: Computabilidad y Algoritmia
 // Curso: 2º
-// Práctica 2: Símbolos, alfabetos y cadenas
+// Práctica 3: Operaciones con cadenas y lenguajes
 // Autor: Jesús David Suárez Baute
 // Correo: alu0101345482@ull.edu.es
-// Fecha: 17/10/2021
+// Fecha: 18/10/2021
 // Archivo alfabetos.h: Archivo header de la clase Alfabeto.
 //        Contiene la definicion de la clase Alfabeto, la cual guarda el
 //        alfabeto de entrada del archivo
 // Referencias:
 //        https://stackoverflow.com/
 // Historial de revisiones
-//        17/10/2021 - Creación (primera versión) del código
+//        18/10/2021 - Creación (segunda versión) del código
 
 #ifndef ALFABETOS_H
 #define ALFABETOS_H
@@ -23,6 +23,8 @@
 #include <vector>
 
 #include "simbolo.h"
+
+#define MAX 1000
 
 using namespace std;
 

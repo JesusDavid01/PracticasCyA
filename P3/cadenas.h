@@ -3,17 +3,17 @@
 // Grado en Ingeniería Informática
 // Asignatura: Computabilidad y Algoritmia
 // Curso: 2º
-// Práctica 2: Símbolos, alfabetos y cadenas
+// Práctica 3: Operaciones con cadenas y lenguajes
 // Autor: Jesús David Suárez Baute
 // Correo: alu0101345482@ull.edu.es
-// Fecha: 17/10/2021
+// Fecha: 18/10/2021
 // Archivo cadenas.h: Archivo header de la clase Chain
 //        Contiene la definición de la clase Chain, la cual extrae, guarda y
 //        opera con la cadena del archivo
 // Referencias:
 //        https://stackoverflow.com/
 // Historial de revisiones
-//        17/10/2021 - Creación (primera versión) del código
+//        18/10/2021 - Creación (segunda versión) del código
 
 #ifndef CADENAS_H
 #define CADENAS_H
@@ -46,6 +46,14 @@ class Chain {  // Clase Chain
   string Prefijos();
   string Sufijos();
   string Subcadenas();
+  string Comparacion(string);
+  string Concatenacion(string);
+  string Potencia(int);
+  vector<Simbolo> Mayor(vector<Simbolo>, vector<Simbolo>);
+  vector<Simbolo> Menor(vector<Simbolo>, vector<Simbolo>);
+  bool IsInAlphabet(string);
+  string operator+(const vector<Chain>);
+  string operator^(int);
 
  private:
   string chain_;                // Cadena

@@ -3,17 +3,17 @@
 // Grado en Ingeniería Informática
 // Asignatura: Computabilidad y Algoritmia
 // Curso: 2º
-// Práctica 2: Símbolos, alfabetos y cadenas
+// Práctica 3: Operaciones con cadenas y lenguajes
 // Autor: Jesús David Suárez Baute
 // Correo: alu0101345482@ull.edu.es
-// Fecha: 17/10/2021
+// Fecha: 18/10/2021
 // Archivo simbolo.h: Archivo header de la clase Simbolo.
 //        Contiene la definicion de la clase Simbolo, la cual guarda los
 //        símbolos de la cadena
 // Referencias:
 //        https://stackoverflow.com/
 // Historial de revisiones
-//        17/10/2021 - Creación (primera versión) del código
+//        18/10/2021 - Creación (segunda versión) del código
 
 #ifndef SIMBOLO_H
 #define SIMBOLO_H

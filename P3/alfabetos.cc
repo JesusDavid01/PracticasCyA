@@ -3,16 +3,16 @@
 // Grado en Ingeniería Informática
 // Asignatura: Computabilidad y Algoritmia
 // Curso: 2º
-// Práctica 2: Símbolos, alfabetos y cadenas
+// Práctica 3: Operaciones con cadenas y lenguajes
 // Autor: Jesús David Suárez Baute
 // Correo: alu0101345482@ull.edu.es
-// Fecha: 17/10/2021
+// Fecha: 18/10/2021
 // Archivo alfabetos.cc: Archivo para el desarrollo de la clase Alfabeto.
 //        Contiene el desarrollo del constructor y de las clases
 // Referencias:
 //        https://stackoverflow.com/
 // Historial de revisiones
-//        17/10/2021 - Creación (primera versión) del código
+//        18/10/2021 - Creación (segunda versión) del código
 
 #include "alfabetos.h"
 

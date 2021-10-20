@@ -3,17 +3,17 @@
 // Grado en Ingeniería Informática
 // Asignatura: Computabilidad y Algoritmia
 // Curso: 2º
-// Práctica 2: Símbolos, alfabetos y cadenas
+// Práctica 3: Operaciones con cadenas y lenguajes
 // Autor: Jesús David Suárez Baute
 // Correo: alu0101345482@ull.edu.es
-// Fecha: 17/10/2021
+// Fecha: 18/10/2021
 // Archivo file.cc: Archivo file.cc
 //        Contiene la implementación de la clase File y sus métodos, además
 //        de la definición del constructor
 // Referencias:
 //        https://stackoverflow.com/
 // Historial de revisiones
-//        17/10/2021 - Creación (primera versión) del código
+//        18/10/2021 - Creación (segunda versión) del código
 
 #include "file.h"
 
@@ -85,6 +85,36 @@ void File::Operador() {
       for (auto c : chains_) {
         out_file_ << '&' << ' ';
         WriteOut(c.Subcadenas());
+        out_file_ << endl;
+      }
+      break;
+
+    case 6:
+      for (auto c : chains_) {
+        string cadena = "";
+        cout << "Introduzca la cadena que desea comparar: ";
+        cin >> cadena;
+        WriteOut(c.Comparacion(cadena));
+        out_file_ << endl;
+      }
+      break;
+
+    case 7:
+      for (auto c : chains_) {
+        string cadena = "";
+        cout << "Introduzca la cadena que desea concatenar: ";
+        cin >> cadena;
+        WriteOut(c.Concatenacion(cadena));
+        out_file_ << endl;
+      }
+      break;
+
+    case 8:
+      for (auto c : chains_) {
+        int potencia = 0;
+        cout << "Introduzca el exponente de la potencia: ";
+        cin >> potencia;
+        WriteOut(c.Potencia(potencia));
         out_file_ << endl;
       }
       break;
