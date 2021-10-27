@@ -51,9 +51,6 @@ class Chain {  // Clase Chain
   string Potencia(int);
   vector<Simbolo> Mayor(vector<Simbolo>, vector<Simbolo>);
   vector<Simbolo> Menor(vector<Simbolo>, vector<Simbolo>);
-  bool IsInAlphabet(string);
-  string operator+(const vector<Chain>);
-  string operator^(int);
 
  private:
   string chain_;                // Cadena
