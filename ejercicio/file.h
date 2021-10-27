@@ -31,7 +31,9 @@
 #define BucleWhile "while"
 #define VariableInt "int"
 #define VariableDouble "double"
-#define ExpressionMain "main"
+#define ExpressionMain "int main"
+#define ExpressionInclude "#include"
+#define ExpressionReturn "return"
 #define Space " "
 #define MAX 10000
 

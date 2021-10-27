@@ -1,0 +1,44 @@
+PROGRAM: program_test.cc
+DESCRIPTION: 
+/** 
+ * Universidad de La Laguna 
+ * Escuela Superior de Ingeniería y Tecnología 
+ * Grado en Ingeniería Informática 
+ * Computabilidad y Algoritmia 
+ * 
+ * @author F. de Sande 
+ * @date Oct 25 2021 
+ * @brief Test program to use as input in the Regular Expressions lab assignment 
+ */ 
+
+MAIN: 
+False
+
+INCLUDES: 
+#include <iostream> 
+#include <string> 
+#include "empty.h" 
+
+COMMENTS: 
+[Line 1-10] DESCRIPTION
+[Line 19]   void Draw();      /// Function Member 
+  int rows_{0};    /// Data members 
+
+VARIABLES: 
+[Line 22] INT:   int cols_{0}; 
+
+COMMENTS: 
+[Line 1-12] DESCRIPTION
+[Line 27]   for (auto character: kHello) {  // character will be a copy of the current string element (char) 
+  for (const auto &element: array) { // element is a const reference to the currently iterated array element 
+
+STATEMENTS: 
+[Line 35] LOOP: while
+[Line 36] INT:     int my_var; 
+
+COMMENTS: 
+[Line 1-14] DESCRIPTION
+[Line 38]     return 3 * 7; 
+
+RETURN: 
+  return 0; 

@@ -25,6 +25,7 @@ File::File(string in_file, string out_file, string name_in) {
                                // todas las líneas
   int line{1}, line_alm{0}, contador{0};
   int just_one_loop{1}, just_one_var{1}, just_one_main{1};
+  int just_one_include {1}, just_one_return {1};
   out_file_ << "PROGRAM: " << name_in << endl;
   line++;
   regex expressionSimpleComments(SimpleDoubleComment);
@@ -35,6 +36,8 @@ File::File(string in_file, string out_file, string name_in) {
   regex vInt(VariableInt);
   regex vDouble(VariableDouble);
   regex expMain(ExpressionMain);
+  regex expInclude(ExpressionInclude);
+  regex expReturn(ExpressionReturn);
   smatch matches;
 
   while (getline(in_file_,
@@ -44,7 +47,7 @@ File::File(string in_file, string out_file, string name_in) {
       save_ += solo_word + " ";
       line++;
     }
-    if (regex_search(save_, matches, expressionSimpleComments) ||
+   if (regex_search(save_, matches, expressionSimpleComments) ||
         regex_search(save_, matches, expressionCompoundCommentStart) ||
         regex_search(save_, matches, expressionCompoundCommentFinish)) {
       if (line == 3) {
@@ -54,6 +57,7 @@ File::File(string in_file, string out_file, string name_in) {
         out_file_ << "COMMENTS: " << endl;
         out_file_ << "[Line 1-" << line_alm << "] DESCRIPTION" << endl;
         out_file_ << "[Line " << line << "] ";
+        contador = 0;
       }
       line_alm++;
       out_file_ << save_ << endl;
@@ -89,8 +93,9 @@ File::File(string in_file, string out_file, string name_in) {
         just_one_main++;
       }
       save_ = "";
-    } else if (regex_search(save_, matches, vInt) ||
-               regex_search(save_, matches, vDouble)) {
+    } else if ((regex_search(save_, matches, vInt) ||
+               regex_search(save_, matches, vDouble)) &&
+               !regex_search(save_, matches, expMain)) {
       contador = 100;
       if (just_one_var == 1) {
         out_file_ << endl;
@@ -107,13 +112,26 @@ File::File(string in_file, string out_file, string name_in) {
       }
       out_file_ << save_ << endl;
       save_ = "";
-    } else {
+    } else if (regex_search(save_, matches, expInclude)) {
+      if (just_one_include == 1) {
+        out_file_ << endl;
+        out_file_ << "INCLUDES: " << endl;
+        just_one_include++;
+      }
+      out_file_ << save_ << endl;
+      save_ = "";
+    } else if (regex_search(save_, matches, expReturn)) {
+      if (just_one_return == 1) {
+        out_file_ << endl;
+        out_file_ << "RETURN: " << endl;
+        just_one_return++;
+      }
+      out_file_ << save_ << endl;
       save_ = "";
     }
     save_ = "";
-  }
+  } 
 }
-
 void File::imprimir(string print) { out_file_ << print << endl; }
 
 void File::Escribir_Archivo() {}
