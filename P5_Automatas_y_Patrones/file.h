@@ -24,19 +24,18 @@
 #include <vector>
 #include <assert.h>
 
-#include "alphabet.h"
-#include "dfa.h"
+#include "symbol.h"
 
-const char nodeS {'S'};
-const char nodeB {'B'};
+const char nodeS {'S'}; // Estado inicial
+const char nodeB {'B'}; 
 const char nodeD {'D'};
-const char nodeE {'E'};
-const char nodeF {'F'};
-const char nodeO {'0'};
-const char A {'A'};
-const char C {'C'};
-const char T {'T'};
-const char G {'G'};
+const char nodeE {'E'}; // Estado de aceptacion
+const char nodeF {'F'}; // Estado de aceptacion
+const char nodeO {'0'}; // Estado vacío o estado de muerte
+const char A {'A'}; // Caracter A del alfabeto
+const char C {'C'}; // Caracter C del alfabeto
+const char T {'T'}; // Caracter T del alfabeto
+const char G {'G'}; // Caracter G del alfabeto
 const int tam {100};
 
 
@@ -44,12 +43,8 @@ class File {
  public:
   File(std::string dna, std::string out_file);
 
-  void imprimir(std::string print);
-  void subCadenas();
-  char currentNode(char node);
-  void isString();
-  void final_file(std::string final_result[], int posicion);
-  void dfa(std::string cadena);
+  void isString(); // Funcion para comprobar si son cadenas validas
+  void final_file(std::string final_result[], int posicion); // Funcion para limpiar el archivo de cadenas repetidas y espacios en blanco
 
  private:
   std::ofstream out_file_;     // Archivo de salida
