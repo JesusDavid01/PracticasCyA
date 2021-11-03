@@ -22,9 +22,8 @@ File::File(std::string dna, std::string out_file) {
 
   std::string sequence;
 
-  for (size_t i = 0; i < dna.size();
-       i++) {  // Obtenemos los símbolos de la
-               // cadena y los guardamos en un string
+  for (size_t i = 0; i < dna.size(); i++) {  // Obtenemos los símbolos de la
+                                        // cadena y los guardamos en un string
     sequence += dna[i];
     dna_.insert(dna_.end(), sequence);
     sequence = "";
