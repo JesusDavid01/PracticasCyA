@@ -48,7 +48,7 @@ void File::isString() {
       std::cout << "Estado de partida: " << actual_node << std::endl;
       switch (aux.front()) {  // Dependiendo del símbolo que obtengamos tenemos
                               // unas opciones
-        case T:
+        case C:
           if (actual_node == nodeS) {
             result += aux;
             actual_node = nodeD;
@@ -140,7 +140,7 @@ void File::isString() {
             break;
           }
 
-        case C:
+        case T:
           if (actual_node == nodeS) {
             actual_node = nodeS;
             break;
