@@ -14,7 +14,6 @@
 // Historial de revisiones
 //        30/10/2021 - Creación (primera versión) del código
 
-#include <cmath>
 #include <iostream>
 
 #include "file.h"
