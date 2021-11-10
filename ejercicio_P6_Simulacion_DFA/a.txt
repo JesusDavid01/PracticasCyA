@@ -1,0 +1,9 @@
+bbc -- Rejected
+bba -- Accepted
+ccbbcac -- Rejected
+aaaaaaaaaab -- Accepted
+abcbbc -- Rejected
+baaaaaaaaaa -- Accepted
+bbcaabbc -- Rejected
+abbaabbaabba -- Accepted
+ababababbbc -- Rejected
