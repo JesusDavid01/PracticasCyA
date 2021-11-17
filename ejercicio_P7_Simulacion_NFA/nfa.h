@@ -30,6 +30,8 @@ const std::string symbol_0{'0'};
 const std::string symbol_1{'1'};
 const std::string symbol_2{'2'};
 const std::string symbol_eps{'&'};
+const std::string symbol_a{'a'};
+const std::string symbol_b{'b'};
 const int estado0{0};
 const int estado1{1};
 const int estado2{2};
