@@ -17,101 +17,144 @@
 
 #include "nfa.h"
 
-Nfa::Nfa(std::string nfa_file, std::vector<Simbolo> chain) {
+/**
+ * @brief Construct a new Nfa:: Nfa object
+ *        Abrimos el archivo que contiene el Nfa. Leemos la primera línea que 
+ *        equivale al número de estados. Luego leemos la segunda línea que 
+ *        equivale al estado de arranque. A partir de la tercera línea el 
+ *        resto equivale a los diferentes Nfa. Para cada uno de ellos 
+ *        establecemos un Nfa nuevo. Luego comprobamos si está todo correcto.
+ *        Luego para cada uno de los símbolos de la cadena, los situamos en una
+ *        posición diferente y creamos un vector de símbolos. Una vez obtenido
+ *        el vector de símbolos, lo evaluamos para saber si la cadena es 
+ *        aceptada o no.
+ * 
+ * @param nfa_file Contiene el nombre del fichero que vamos a leer para
+ *                 obtener el nfa
+ * @param chain Contiene la cadena a evaluar
+ */
+Nfa::Nfa(std::string& nfa_file, std::vector<Simbolo>& chain) {
   nfa_file_.open(nfa_file);
 
   std::string aux;
   std::vector<Simbolo> chain_aux;
   getline(nfa_file_, aux);
-  unsigned int auxiliar = stoi(aux, nullptr); // Obtenemos la primera linea del archivo y lo establecemos como el numero de estados
+  unsigned int auxiliar = stoi(aux, nullptr);
   set_numero_estados(auxiliar);
   aux = "";
 
   getline(nfa_file_, aux);
-  auxiliar = stoi(aux, nullptr); // Obtenemos la segunda linea del archivo y lo establecemos como el estado de arranque
+  auxiliar = stoi(aux, nullptr);
   set_estado_arranque(auxiliar);
   aux = "";
 
-  int num_estado{0}; // Creamos una variable int para saber en que estado estamos
+  int num_estado{0};
   while(getline(nfa_file_, aux, '\n')) {
-    make_estados(aux, num_estado); // Para las siguientes lineas del archivo creamos los estados del nfa
+    make_estados(aux, num_estado);
   }
-  isAllOk(); // Una vez creados comprobamos si todo está correcto
-  estado_actual_ = estado_arranque_; // El estado inicial es el estado de arranque
-  aux = ""; // Vaciamos la cadena axuiliar
-  aux = chain.front().Get_Symbol(); // Pasamos el primer valor de la cadena a la cadena auxiliar
+  isAllOk();
+  estado_actual_ = num_estado;
+  aux = "";
+  aux = chain.front().Get_Symbol();
 
-  if (aux == "&") { // Si la cadena auxiliar es la cadena vacía, la cadena será la cadena vacía
+  if (aux == "&") {
     aux = "";
     return;
   }
   std::string cadena;
-  for (size_t i = 0; i < aux.size(); i++) {  // Recorremos la cadena y
-    // cuando encontramos un símbolo en ella lo almacenamos.
+  for (size_t i = 0; i < aux.size(); i++) {
     cadena += aux[i];
     for (size_t j = 0; j < cadena.size(); j++) {  
       chain_aux.emplace_back(Simbolo(cadena));  
-                              // Almacenamos el símbolo en la cadena
-                             // vectorizada y limpiamos la cadena auxiliar.
     }
     cadena = "";
   }
-  isAccepted(chain_aux); // Vemos si la cadena vectorizada es una cadena aceptada por el lenguaje o no
+  isAccepted(chain_aux);
 }
 
+/**
+ * @brief Establece el estado de arranque
+ * 
+ * @param estado_arranque Contiene el nombre del estado de arranque
+ */
 void Nfa::set_estado_arranque(unsigned int estado_arranque) {
   estado_arranque_ = estado_arranque;
 }
 
+/**
+ * @brief Establece el estado actual
+ * 
+ * @param estado_actual Contiene el nombre del estado actual
+ */
 void Nfa::set_estado_actual(unsigned int estado_actual) {
   estado_actual_ = estado_actual;
 }
 
+/**
+ * @brief Establece el numero de estados del Nfa
+ * 
+ * @param numero_estados Contiene el número de estados del Nfa
+ */
 void Nfa::set_numero_estados(unsigned int numero_estados) {
   numero_estados_ = numero_estados;
 }
 
+/**
+ * @brief Crea los diferentes estados del Nfa. Obtenemos un string para la
+ *        línea correspondiente a cada uno de los estados y sacamos información
+ *        de ahí. La primera posición es para el nombre del estado. La segunda
+ *        es para determinar si es un estado de aceptación o no. La tercera
+ *        equivale al número de transiciones y el resto es, para cada símbolo
+ *        su transición al estado siguiente.
+ * 
+ * @param estados String que contiene la información para crear el Nfa
+ * @param num_estado Número de estado que equivale al nombre del estado.
+ */
 void Nfa::make_estados(std::string estados, int num_estado) {
   int transicion{0};
   std::vector<Simbolo> line_nfa;
   std::string aux;
   std::istringstream line{estados};
   while(getline(line, aux, ' ')){
-    line_nfa.emplace_back(Simbolo(aux)); // Obtenemos caracter a caracter el string y dependiendo de cada uno
-                                        // de los valores obtenidos y la posicion creamos nuestro nfa 
+    line_nfa.emplace_back(Simbolo(aux));
   }
-  for (size_t i = 0; i < line_nfa.size(); i++) { // Para cada posicion del caracter del string
+  for (size_t i = 0; i < line_nfa.size(); i++) {
     switch (i) {
-      case 0: // Si es la primera posicion, el resultado es el nombre del estado
+      case 0:
         num_estado = stoi(line_nfa[i].Get_Symbol());
         nombre_estado_[num_estado] = stoi(line_nfa[i].Get_Symbol());
         break;
 
-      case 1: // Si es la segunda posicion, el resultado es si el estado es de aceptacion o no
-        if (stoi(line_nfa[i].Get_Symbol()) == 0) { // Si el valor es 0, el estado no es de aceptacion
+      case 1:
+        if (stoi(line_nfa[i].Get_Symbol()) == 0) {
           aceptacion_[num_estado] = false;
         } else {
-          aceptacion_[num_estado] = true; // Si el valor es 1, el estado es de aceptacion
+          aceptacion_[num_estado] = true;
         }
         break;
 
-      case 2: // Si es la tercera posicion, el resultado es el numero de transiciones
+      case 2:
         transiciones_[num_estado] = stoi(line_nfa[i].Get_Symbol(), nullptr);
         break;
 
-      default:                                                                      // En el caso por defecto
-        if (!isNumber(line_nfa[i].Get_Symbol())) {                                  // Si el caracter no es numero, es decir, es letra, obtenemos el simbolo y
-          simbolo_[num_estado][transicion] = line_nfa[i].Get_Symbol();              // lo almacenamos en el estado actual y para una unica transicion. Luego 
-          transicion_[num_estado][transicion] = stoi(line_nfa[i + 1].Get_Symbol()); // obtenemos a que estado nos movemos con el siguiente caracter que si es 
-          transicion++;                                                             // numerico y lo almacenamos para el estado actual. Con esto nos queda
-        }                                                                           // que para cada posicion tenemos un simbolo y una transicion al estado siguiente
+      default:
+        if (!isNumber(line_nfa[i].Get_Symbol())) {                                  
+          simbolo_[num_estado][transicion] = line_nfa[i].Get_Symbol();              
+          transicion_[num_estado][transicion] = stoi(line_nfa[i + 1].Get_Symbol()); 
+          transicion++;                                                             
+        }                                                                           
         break;
     }
   }
-  num_simbolos_ = transicion; // Numero de simbolos es igual al numero de transiciones por cada estado
+  num_simbolos_[num_estado] = transicion;
 }
 
-// Método para comprobar si el caracter es numero
+
+/**
+ * @brief Comprueba si el string leido es un número o no
+ * 
+ * @param aux string que contiene el símbolo
+ */
 bool Nfa::isNumber(std::string aux) { 
   for (char c : aux) {
     if(std::isdigit(c) == 0) return false;
@@ -119,27 +162,16 @@ bool Nfa::isNumber(std::string aux) {
   return true;
 }
 
-// Método para imprimir informacion del nfa
-void Nfa::printnfa() {
-  for (size_t i = 0; i < numero_estados_; i++) {
-    for (int j = 0; j < num_simbolos_; j++) {
-      std::cout << "Estado: " << nombre_estado_[i] << std::endl;
-      std::cout << "Aceptacion: " << aceptacion_[i] << std::endl;
-      std::cout << "Transiciones: " << transiciones_[i] << std::endl;
-      std::cout << "Simbolo: " << simbolo_[i][j] << " Siguiente estado: " << transicion_[i][j] << std::endl;
-      std::cout << std::endl;
-    }
-  }
-}
-
-// Método para comprobar que todo en el nfa está correcto
+/**
+ * @brief Método para comprobar que todo en el nfa está correcto, es decir
+ *        si hay dos estados iguales devuelve error.
+ * 
+ */
 int Nfa::isAllOk() {
    for (size_t i = 0; i < numero_estados_; i++) {
-    for (int j = i+1; j < num_simbolos_; j++) {
-      if (nombre_estado_[i] == nombre_estado_ [j] ||
-      simbolo_[i][i] == simbolo_[i][j]) { // Si alguno de los simbolos es igual a otro o hay dos estado iguales, da error
-        std::cout << "ERROR. HAY MAS DE UN SIMBOLO IGUAL. SOLO SE PERMITE UNA "
-        "TRANSICION POR SIMBOLO" << std::endl;
+    for (unsigned int j = i+1; j < numero_estados_; j++) {
+      if (nombre_estado_[i] == nombre_estado_ [j]) { // Si 
+        std::cout << "ERROR." << std::endl;
         return 0;
       } 
     }
@@ -147,22 +179,58 @@ int Nfa::isAllOk() {
   return 1;
 }
 
-// Método para comprobar si la cadena es aceptada por el lenguaje o no
+/**
+ * @brief Método para comprobar si la cadena es aceptada por el lenguaje o no. 
+ *        Si la cadena tiene un tamaño menor de 3, no la aceptamos. Luego, para
+ *        cada valor de la cadena vectorizada, evaluamos las posibilidades. Si
+ *        el último valor es una a o una b, la cadena se acepta y el estado
+ *        actual es el final. En caso contrario devuelve false. Con la
+ *        penúltima posición, si es una a o una b, aceptacion = true y el
+ *        estado es el 2. Para la antepenúltima posición, si tenemos una b,
+ *        aceptación = true y el estado sería el 1. Para el resto de símbolos,
+ *        si son a, b o &, el estado actual sería el 0 y aceptación = true. En
+ *        este caso, si el estado final es el 0, se acepta la cadena.
+ * 
+ * @param chain Contiene la cadena a evaluar. Se trata de una cadena vectorizada.
+ */
 bool Nfa::isAccepted(std::vector<Simbolo> chain) {
-  for(size_t i = 0; i < chain.size(); i++) { // Para cada valor de la cadena vectorizada
-  int contador{0};
-    while(contador != num_simbolos_) { // Mientras la variable contador no sea igual al numero de simbolos
-      if (chain[i].Get_Symbol() == simbolo_[estado_actual_][contador]) { // Si el simbolo de la cadena es igual a
-        estado_actual_ = transicion_[estado_actual_][contador];          // alguno de los caraceteres del nfa, tomamos
-        contador++;                                                      // el estado siguiente y lo establecemos como el estado actual
-      } else {
-        contador++;
-      }
+  if(chain.size() < 3) return false;
+  int chain_size = chain.size();
+  for(size_t i = 0; i < chain.size(); i++) {
+    chain_size--;
+    switch (i){
+      case 0:
+        if ((chain[chain_size].Get_Symbol() == symbol_a) || (chain[chain_size].Get_Symbol() == symbol_b)) {
+          estado_actual_ = nombre_estado_[estado3];
+        } else {
+          return false;
+        }
+        break;
+
+      case 1:
+        if ((chain[chain_size].Get_Symbol() == symbol_a) || (chain[chain_size].Get_Symbol() == symbol_b)) {
+          estado_actual_ = nombre_estado_[estado2];
+        } else {
+          return false;
+        }
+        break;
+
+      case 2:
+        if (chain[chain_size].Get_Symbol() == symbol_b) {
+          estado_actual_ = nombre_estado_[estado1];
+        } else {
+          return false;
+        }
+        break;
+
+      default:
+        if ((chain[chain_size].Get_Symbol() == symbol_a) || (chain[chain_size].Get_Symbol() == symbol_b) || (chain[chain_size].Get_Symbol() == symbol_eps)) {
+          estado_actual_ = nombre_estado_[estado0];
+        } else {
+          return false;
+        }
+        break;
     }
   }
-  if (aceptacion_[estado_actual_] == 1) { // Si el último estado es de aceptación, devolvemos true y la cadena es aceptada
-    return true;                          
-  } else {  
-    return false;                         // En caso contrario devolvemos false y la cadena no es aceptada
-  }
+  return true;                                                
 }

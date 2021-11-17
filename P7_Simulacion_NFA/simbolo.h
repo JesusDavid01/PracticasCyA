@@ -21,16 +21,16 @@
 #include <iostream>
 #include <string>
 
-class Simbolo {  // Clase Simbolo
+class Simbolo {
  public:
-  Simbolo(std::string symbol);  // Constructor de símbolo
+  Simbolo(std::string symbol);
 
-  std::string Get_Symbol();       // Devuelve el símbolo
+  std::string Get_Symbol();
 
-  void Set_Symbol(std::string);   // Establece un simbolo nuevo
+  void Set_Symbol(std::string);
 
  private:
-  std::string symbol_;  // Símbolo
+  std::string symbol_;
 };
 
 #endif

@@ -17,26 +17,44 @@
 
 #include "file.h"
 
-File::File(std::string nfa, std::string in_file, std::string out_file) {
-  in_file_.open(in_file);    // Apertura de archivo de entrada
-  out_file_.open(out_file);  // Apertura de archivo de salida
+/** Abre dos archivos, uno de entrada y otro de salida. Luego se extrae el
+ * contenido línea a línea. Por cada línea obtenida, creamos un objeto para
+ * la clase cadena y otro para la clase Nfa. Por último se evalúa la cadena
+ * y se comprueba si es aceptada o no.
+ * 
+ * @param nfa Nombre del archivo que contiene el Nfa para su posterior paso
+ *            a la clase Nfa
+ * 
+ * @param in_file Nombre del archivo que contiene las cadenas a evaluar
+ * 
+ * @param out_file Nombre del archivo de salida
+*/
+File::File(std::string& nfa, std::string& in_file, std::string& out_file) {
+  in_file_.open(in_file);
+  out_file_.open(out_file);
 
-  std::string all_line, one_line;
+  std::string all_line, one_line, aux;
   std::vector<Simbolo> chain;
 
-  while (getline(in_file_, all_line)) { // Obtenemos la linea entera
+  while (getline(in_file_, all_line)) {
     std::istringstream sp_chain{all_line};
-    while(getline(sp_chain, one_line)) { // Metemos cada caracter en un vector de simbolos
-      chain.emplace_back(Simbolo(one_line));
+    while(getline(sp_chain, one_line)) {
+      for(size_t i = 0; i < one_line.size(); i++) {
+        aux += one_line[i];
+        for(size_t j = 0; j < aux.size(); j++) {
+          chain.emplace_back(Simbolo(aux));
+        }
+        aux = "";
+      }
     }
-    Chain cadena(chain); // Creamos un objeto cadena de la clase Chain
-    Nfa cadenas(nfa, chain); // Creamos un objeto cadenas de la clase Nfa
-    if (cadenas.isAccepted(chain) == true) { // Si la cadena es aceptada, escribimos en el archivo de salida la cadena y que está aceptada
+    Chain cadena(chain);
+    Nfa prueba(nfa, chain);
+    if (prueba.isAccepted(chain) == true) {
       out_file_ << cadena.Get_Chain() << " -- Accepted" << std::endl;
-    } else {  // En caso contrario, escribimos en el archivo de salida la cadena y que ha sido rechazada
+    } else {
       out_file_ << cadena.Get_Chain() << " -- Rejected" << std::endl;
     }
-    chain.clear(); // Limpiamos la cadena para obtener la siguiente
-    all_line = ""; // Vaciamos el string del que obtenemos la cadena
+    chain.clear();
+    all_line = "";
   }
 }

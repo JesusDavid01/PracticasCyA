@@ -27,7 +27,7 @@
 
 class File {  // Clase File
  public:
-  File(std::string nfa, std::string in_file, std::string out_file);
+  File(std::string& nfa, std::string& in_file, std::string& out_file);
 
  private:
   std::ifstream in_file_;      // Archivo de entrada

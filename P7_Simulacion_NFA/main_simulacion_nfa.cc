@@ -18,7 +18,11 @@
 
 #include "file.h"
 
-// Método para comprobar el número de argumentos que se pasan por pantalla
+/** Método para comprobar el número de argumentos que se pasan por pantalla
+ * 
+ * @param argc Contiene el número de argumentos que se leen por pantalla
+ * 
+ */
 bool notusable(int argc) {
   if (argc <= 1 || argc > 4) { // Si hay menos de 1 argumentos, da error
     std::cout << "Error. Comando mal introducido" << std::endl;
@@ -33,7 +37,12 @@ bool notusable(int argc) {
   return false;
 }
 
-// Método para mostar la ayuda por pantalla
+/** Método para mostar la ayuda por pantalla
+ * 
+ * @param argv Contiene el nombre del primer argumento después de la llamada
+ *             a la función
+ * 
+ */
 bool help(std::string argv) {
   if ((argv == "--help") || (argv == "-h")) { // En caso de que usemos --help, imprimimos un pequeño texto con información por pantalla
     std::cout
@@ -60,6 +69,11 @@ bool help(std::string argv) {
   return false;
 }
 
+/**
+ * @param argc Contiene el número de argumentos que se leen por pantalla
+ * @param argv Contiene el nombre de los argumentos después de la llamada
+ *             a la función
+ */
 int main(int argc, char* argv[]) {
   if(notusable(argc)) {return 1;};
   if(help(argv[1])) {return 1;}; 

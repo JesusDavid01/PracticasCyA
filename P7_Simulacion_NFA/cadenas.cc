@@ -17,32 +17,48 @@
 
 #include "cadenas.h"
 
-// Constructor de la clase Chain, dado un vector de símbolos y un alfabeto se
-// construye la cadena
+/**
+ * @brief Construct a new Chain:: Chain object
+ *        Se le pasa un vector de símbolos y se transforma en una cadena 
+ *        vectorizada. En caso de ser la cadena vacía, se retorna la propia
+ *        cadena
+ * 
+ * @param chain Contiene la cadena en un vector de símbolos
+ */
 Chain::Chain(std::vector<Simbolo> chain) {
-  chain_ = chain.front().Get_Symbol();
+  for (size_t i = 0; i < chain.size(); i++) {
+    chain_ += chain[i].Get_Symbol();
+  }
 
   if (chain_ == "&") {
     return;
-  }  // Si la cadena es la cadena vacía, chain será una cadena vacía
+  }
   std::string cadena;
-  for (size_t i = 0; i < chain_.size(); i++) {  // Recorremos la cadena y
-    // almacenamos los valores individualmente
+  for (size_t i = 0; i < chain_.size(); i++) {
     cadena += chain_[i];
     for (size_t j = 0; j < chain.size() - 1; j++) {  
-      chain_well_.emplace_back(Simbolo(cadena));  // Almacenamos el símbolo 
-                             // en la cadena vectorizada y limpiamos la
-                            // cadena auxiliar.                
+      chain_well_.emplace_back(Simbolo(cadena));              
       cadena = "";
     }
   }
 }
 
+/**
+ * @brief Retorna la cadena
+ * 
+ */
 std::string Chain::Get_Chain() { return chain_; } // Método que devuelve la cadena
 
-int Chain::Get_Size() { return chain_well_.size(); } // Método que devuelve
-                                                    // el tamaño de la cadena
+/**
+ * @brief Devuelve el tamaño de la cadena
+ * 
+ */
+int Chain::Get_Size() { return chain_well_.size(); }
 
-std::vector<Simbolo> Chain::get_chain_well() { // Método que devuelve 
-  return chain_well_;                          // la cadena vectorizada
+/**
+ * @brief Devuelve la cadena vectorizada
+ * 
+ */
+std::vector<Simbolo> Chain::get_chain_well() {
+  return chain_well_;
 }

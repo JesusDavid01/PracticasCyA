@@ -25,18 +25,16 @@
 #include "simbolo.h"
 #include "string.h"
 
-class Chain {  // Clase Chain
+class Chain {
  public:
-  Chain(std::vector<Simbolo> chain);  // Constructor
+  Chain(std::vector<Simbolo> chain);
 
-  std::string Get_Chain();  // Método que devuelve la cadena
-  int Get_Size();           // Método que devuelve el tamaño de la cadena
-  std::vector<Simbolo> get_chain_well(); // Método que devuelve 
-                                        // la cadena vectorizada
+  std::string Get_Chain();
+  int Get_Size();
+  std::vector<Simbolo> get_chain_well();
 
  private:
-  std::string chain_;  // Cadena
-  std::vector<Simbolo> chain_well_;  // Cadena 
-                                    // vectorizada para dividirla en símbolos
+  std::string chain_;
+  std::vector<Simbolo> chain_well_;
 };
 #endif

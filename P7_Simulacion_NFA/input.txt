@@ -1,6 +1,11 @@
 &
 a
-b
-aaaa
-abab
-bababa
+bb
+abb
+bab
+bbbb
+bbaa
+abbab
+ababb
+ababaa
+bbbbbbbba

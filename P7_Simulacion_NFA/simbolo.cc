@@ -16,16 +16,29 @@
 
 #include "simbolo.h"
 
+/**
+ * @brief Construct a new Simbolo:: Simbolo object
+ *        Iguala el simbolo que le pasamos al parámetro privado symbol
+ * 
+ * @param symbol 
+ */
 Simbolo::Simbolo(std::string symbol) {
   symbol_ = symbol; 
 }
 
-// Método que devuelve el simbolo
+/**
+ * @brief Devuelve el símbolo
+ * 
+ */
 std::string Simbolo::Get_Symbol() {
   return symbol_; 
 }
 
-// Método que establece un simbolo
+/**
+ * @brief Establece un símbolo nuevo
+ * 
+ * @param symbol string que contiene el símbolo que vamos a establecer
+ */
 void Simbolo::Set_Symbol(std::string symbol) {
   symbol_ = symbol;
 };
