@@ -194,43 +194,115 @@ int Nfa::isAllOk() {
  * @param chain Contiene la cadena a evaluar. Se trata de una cadena vectorizada.
  */
 bool Nfa::isAccepted(std::vector<Simbolo> chain) {
-  if(chain.size() < 3) return false;
-  int chain_size = chain.size();
+  std::string aux;
   for(size_t i = 0; i < chain.size(); i++) {
-    chain_size--;
-    switch (i){
-      case 0:
-        if ((chain[chain_size].Get_Symbol() == symbol_a) || (chain[chain_size].Get_Symbol() == symbol_b)) {
-          estado_actual_ = nombre_estado_[estado3];
+    aux += chain[i].Get_Symbol();
+    switch (estado_actual_) {
+      case estado0:
+        if(aux == symbol_0) {
+          estado_actual_ = estado2;
+        } else if (aux == symbol_1){
+          estado_actual_ = estado3;
+        } else if (aux == symbol_2){
+          estado_actual_ = estado4;
+        } else if (aux == symbol_eps){
+          estado_actual_ = estado1;
+        } else {
+          return false;
+        }
+        break;
+      
+      case estado1:
+        if(aux == symbol_0) {
+          estado_actual_ = estado2;
+        } else if (aux == symbol_1){
+          estado_actual_ = estado3;
+        } else if (aux == symbol_2){
+          estado_actual_ = estado4;
+        } else if (aux == symbol_eps){
+          estado_actual_ = estado1;
         } else {
           return false;
         }
         break;
 
-      case 1:
-        if ((chain[chain_size].Get_Symbol() == symbol_a) || (chain[chain_size].Get_Symbol() == symbol_b)) {
-          estado_actual_ = nombre_estado_[estado2];
+      case estado2:
+        if(aux == symbol_0) {
+          estado_actual_ = estado2;
+        } else if (aux == symbol_1){
+          estado_actual_ = estado3;
+        } else if (aux == symbol_2){
+          estado_actual_ = estado4;
+        } else if (aux == symbol_eps){
+          estado_actual_ = estado5;
         } else {
           return false;
         }
         break;
 
-      case 2:
-        if (chain[chain_size].Get_Symbol() == symbol_b) {
-          estado_actual_ = nombre_estado_[estado1];
+      case estado3:
+        if (aux == symbol_1){
+          estado_actual_ = estado3;
+        } else if (aux == symbol_2){
+          estado_actual_ = estado4;
+        } else if (aux == symbol_eps){
+          estado_actual_ = estado6;
+        } else {
+          return false;
+        }
+        break; 
+      
+      case estado4:
+        if (aux == symbol_2){
+          estado_actual_ = estado4;
+        } else if (aux == symbol_eps){
+          estado_actual_ = estado7;
+        } else {
+          return false;
+        }
+        break;
+
+      case estado5:
+        if(aux == symbol_0) {
+          estado_actual_ = estado2;
+        } else if (aux == symbol_1){
+          estado_actual_ = estado3;
+        } else if (aux == symbol_2){
+          estado_actual_ = estado4;
+        } else if (aux == symbol_eps){
+          estado_actual_ = estado5;
+        } else {
+          return false;
+        }
+        break;
+
+      case estado6:
+        if (aux == symbol_1){
+          estado_actual_ = estado3;
+        } else if (aux == symbol_2){
+          estado_actual_ = estado4;
+        } else if (aux == symbol_eps){
+          estado_actual_ = estado6;
+        } else {
+          return false;
+        }
+        break;
+
+      case estado7:
+        if (aux == symbol_2){
+          estado_actual_ = estado4;
+        } else if (aux == symbol_eps){
+          estado_actual_ = estado7;
         } else {
           return false;
         }
         break;
 
       default:
-        if ((chain[chain_size].Get_Symbol() == symbol_a) || (chain[chain_size].Get_Symbol() == symbol_b) || (chain[chain_size].Get_Symbol() == symbol_eps)) {
-          estado_actual_ = nombre_estado_[estado0];
-        } else {
-          return false;
-        }
+        return false;
         break;
     }
+  aux = "";                                          
   }
-  return true;                                                
+  return true;
 }

@@ -26,13 +26,18 @@
 #include "cadenas.h"
 
 const int size{20};
-const std::string symbol_a{'a'};
-const std::string symbol_b{'b'};
+const std::string symbol_0{'0'};
+const std::string symbol_1{'1'};
+const std::string symbol_2{'2'};
 const std::string symbol_eps{'&'};
 const int estado0{0};
 const int estado1{1};
 const int estado2{2};
 const int estado3{3};
+const int estado4{4};
+const int estado5{5};
+const int estado6{6};
+const int estado7{7};
 
 class Nfa {
  public:

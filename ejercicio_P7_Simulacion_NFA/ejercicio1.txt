@@ -1,0 +1,13 @@
+bool Nfa::isAccepted(std::vector<Simbolo> chain) {
+  int chain_counter{0};
+  for(size_t i = 0; i < chain.size(); i++) {
+    if(chain[i].Get_Symbol() == symbol_a) {
+      chain_counter++;
+    }
+  }
+  if(chain_counter%2 == 0) {
+    return true;
+  } else {
+    return false;
+  }                                          
+}
