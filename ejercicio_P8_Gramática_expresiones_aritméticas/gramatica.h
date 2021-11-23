@@ -14,6 +14,9 @@
 // Historial de revisiones
 //        24/11/2021 - Creación (primera versión) del código
 
+#ifndef GRAMATICA_H
+#define GRAMATICA_H
+
 #include <fstream>
 #include <iostream>
 #include <regex>
@@ -24,16 +27,16 @@
 #include "simbolo.h"
 
 const int size{20};
-const char space = ' ';
-const char flecha = '>';
-const char guion = '-';
-const char doublepoints = ':';
-const std::string symbol_E = "E";
-const std::string symbol_N = "N";
-const std::string symbol_D = "D";
-const char char_symbol_E = 'E';
-const char char_symbol_N = 'N';
-const char char_symbol_D = 'D';
+const char character_space = ' ';
+const char character_flecha = '>';
+const char character_guion = '-';
+const char character_doublepoints = ':';
+const std::string character_E = "E";
+const std::string character_N = "N";
+const std::string character_D = "D";
+const char char_character_E = 'E';
+const char char_character_N = 'N';
+const char char_character_D = 'D';
 
 class Gramatica {
  public:
@@ -46,7 +49,7 @@ class Gramatica {
   void eval_drv(std::vector<Simbolo> symbols);
   void eval_gramatica();
   void make_productions();
-  std::string cadena_do(std::string anterior_aux, std::string siguiente_aux);
+  std::string cadena_do(std::string& anterior_aux, std::string& siguiente_aux);
 
  private:
   std::ifstream in_cfg_;
@@ -62,3 +65,4 @@ class Gramatica {
   int contador_symbol_2_{0};
   std::string expresion_final_;
 };
+#endif

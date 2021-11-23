@@ -16,14 +16,14 @@
 
 #include <iostream>
 
-#include "file.h"
+#include "gramatica.h"
 
 /** Método para comprobar el número de argumentos que se pasan por pantalla
  * 
  * @param argc Contiene el número de argumentos que se leen por pantalla
  * 
  */
-bool notusable(int argc) {
+bool wrong_command(int argc) {
   if (argc <= 1 || argc > 4) { // Si hay menos de 1 argumentos, da error
     std::cout << "Error. Comando mal introducido" << std::endl;
     std::cout << "La forma correcta de introducir el comando es : ";
@@ -43,7 +43,7 @@ bool notusable(int argc) {
  *             a la función
  * 
  */
-bool help(std::string argv) {
+bool print_help(std::string argv) {
   if ((argv == "--help") || (argv == "-h")) { // En caso de que usemos --help, imprimimos un pequeño texto con información por pantalla
     std::cout
         << "La forma correcta para utilizar este comando es introducir"
@@ -75,11 +75,11 @@ bool help(std::string argv) {
  *             a la función
  */
 int main(int argc, char* argv[]) {
-  if(notusable(argc)) {return 1;};
-  if(help(argv[1])) {return 1;}; 
+  if (wrong_command(argc)) {return 1;};
+  if (print_help(argv[1])) {return 1;}; 
   std::string in_cfg(argv[1]);  // Lee el archivo de entrada con la gramatica
   std::string in_drv(argv[2]);     // Lee el nombre del archivo de entrada con las reglas de produccion
   std::string out(argv[3]);    // Lee el nombre del archivo de salida del tercer argumento
-  File archivos(in_cfg, in_drv, out);   // Creamos una objeto archivos de la clase File
+  Gramatica archivos(in_cfg, in_drv, out);   // Creamos una objeto archivos de la clase File
   return 0;
 }
