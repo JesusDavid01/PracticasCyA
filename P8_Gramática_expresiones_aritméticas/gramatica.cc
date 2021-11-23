@@ -83,11 +83,11 @@ void Gramatica::eval_cfg(std::vector<Simbolo> ssymbols) {
         break;
 
       case 1:
-        if ( i == 1) { no_terminal_symbols(ssymbols[1].Get_Symbol()); } else {
+        no_terminal_symbols(ssymbols[1].Get_Symbol());
         break;
 
       default:
-        productions(ssymbols[i].Get_Symbol()); }
+        productions(ssymbols[i].Get_Symbol());
         break;
     }
   }
@@ -102,7 +102,7 @@ void Gramatica::eval_cfg(std::vector<Simbolo> ssymbols) {
 void Gramatica::terminal_symbols(std::string symbols) {
   for (size_t i = 0; i < symbols.size(); i++) {
     std::string aux_symbol;
-    if (symbols[i] != space) {
+    if (symbols[i] != character_space) {
       aux_symbol += symbols[i];
       terminal_symbols_.emplace_back(aux_symbol);
     } 
@@ -117,7 +117,7 @@ void Gramatica::terminal_symbols(std::string symbols) {
 void Gramatica::no_terminal_symbols(std::string symbols) {
   for (size_t i = 0; i < symbols.size(); i++) {
     std::string aux_symbol;
-    if (symbols[i] != space) {
+    if (symbols[i] != character_space) {
       aux_symbol += symbols[i];
       no_terminal_symbols_.emplace_back(aux_symbol);
     }
@@ -139,7 +139,7 @@ void Gramatica::productions(std::string symbols) {
   std::string expressions;
   for (size_t i = 0; i < symbols.size(); i++) {
     std::string aux_symbol;
-    if (symbols[i] != space && (symbols[i] != guion || symbols[i+1] != flecha) && symbols[i] != flecha) {
+    if (symbols[i] != character_space && (symbols[i] != character_guion || symbols[i+1] != character_flecha) && symbols[i] != character_flecha) {
         if (i == 0 ) {
           aux_symbol += symbols[i];
           before_producciones_.emplace_back(aux_symbol);
@@ -200,7 +200,7 @@ void Gramatica::eval_drv(std::vector<Simbolo> symbols) {
     std::string aux_symbol = symbols[i].Get_Symbol();
     for (size_t j = 0; j < aux_symbol.size(); j++) {
       std::string aux_symbols;
-      if (aux_symbol[j] != space && aux_symbol[j] != doublepoints) {
+      if (aux_symbol[j] != character_space && aux_symbol[j] != character_doublepoints) {
         aux_symbols += aux_symbol[j];
         derivaciones_.emplace_back(aux_symbols);
       } 
@@ -223,23 +223,23 @@ void Gramatica::eval_drv(std::vector<Simbolo> symbols) {
  */
 void Gramatica::eval_gramatica() {
   std::vector<Simbolo> gramatica;
-  std::string anterior_aux = symbol_E, siguiente_aux;
+  std::string anterior_aux = character_E, siguiente_aux;
   out_file_ << anterior_aux << " => ";
   for (size_t i = 0; i < derivaciones_.size(); i++) {
     if (i % 8 == 0 && i != 0) {
       out_file_ << std::endl;
     }
-    if (derivaciones_[i].Get_Symbol() == symbol_E) {
+    if (derivaciones_[i].Get_Symbol() == character_E) {
       siguiente_aux = producciones_[0][stoi(derivaciones_[i+1].Get_Symbol()) - 1];
       cadena_do(anterior_aux, siguiente_aux);
       anterior_aux = expresion_final_;
       out_file_ << expresion_final_ << " => ";
-    } else if (derivaciones_[i].Get_Symbol() == symbol_N) {
+    } else if (derivaciones_[i].Get_Symbol() == character_N) {
       siguiente_aux = producciones_[1][stoi(derivaciones_[i+1].Get_Symbol()) - 1];
       cadena_do(anterior_aux, siguiente_aux);
       anterior_aux = expresion_final_;
       out_file_ << expresion_final_ << " => ";
-    } else if (derivaciones_[i].Get_Symbol() == symbol_D) {
+    } else if (derivaciones_[i].Get_Symbol() == character_D) {
       siguiente_aux = producciones_[2][stoi(derivaciones_[i+1].Get_Symbol()) - 1];
       cadena_do(anterior_aux, siguiente_aux);
       anterior_aux = expresion_final_;
@@ -264,13 +264,13 @@ void Gramatica::eval_gramatica() {
  * @return std::string Devuelve un string con la derivación realizada
  */
 std::string 
-Gramatica::cadena_do(std::string anterior_aux, std::string siguiente_aux) {
+Gramatica::cadena_do(std::string& anterior_aux, std::string& siguiente_aux) {
   expresion_final_ = "";
-  int contador{0};
+  int times_counter{0};
   for (size_t i = 0; i < anterior_aux.size(); i++) {
-    if (((anterior_aux[i] == char_symbol_E || anterior_aux[i] == char_symbol_N || anterior_aux[i] == char_symbol_D)) && (contador == 0)) {
+    if (((anterior_aux[i] == char_character_E || anterior_aux[i] == char_character_N || anterior_aux[i] == char_character_D)) && (times_counter == 0)) {
       expresion_final_ += siguiente_aux;
-      contador++;
+      times_counter++;
     } else {
       expresion_final_ += anterior_aux[i];
     }
