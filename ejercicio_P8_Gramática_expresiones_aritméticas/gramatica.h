@@ -34,9 +34,13 @@ const char character_doublepoints = ':';
 const std::string character_E = "E";
 const std::string character_N = "N";
 const std::string character_D = "D";
+const std::string character_S = "S";
+const std::string character_A = "A";
 const char char_character_E = 'E';
 const char char_character_N = 'N';
 const char char_character_D = 'D';
+const char char_character_S = 'S';
+const char char_character_A = 'A';
 
 class Gramatica {
  public:
@@ -50,6 +54,10 @@ class Gramatica {
   void eval_gramatica();
   void make_productions();
   std::string cadena_do(std::string& anterior_aux, std::string& siguiente_aux);
+  void mod1_eval_gramatica();
+  std::string mod1_cadena_do(std::string& anterior_aux, std::string& siguiente_aux);
+  //void mod2_eval_gramatica();
+  //std::string mod2_cadena_do(std::string& anterior_aux, std::string& siguiente_aux);
 
  private:
   std::ifstream in_cfg_;

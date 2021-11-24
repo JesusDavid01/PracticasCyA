@@ -62,7 +62,19 @@ Gramatica::Gramatica(std::string& in_cfg, std::string& in_drv, std::string& out_
 
   eval_cfg(ssymbols);
   eval_drv(nsymbols);
-  eval_gramatica();
+  int program{-1};
+  while (program < 0 || program > 2) {
+    std::cout << "Introduzca 0 para el programa original, 1 para la modificación "
+    "1 o 2 para la modificación 2" << std::endl;
+    std::cin >> program;
+  }
+  if (program == 0) {
+    eval_gramatica();
+  } else if (program == 1) {
+    mod1_eval_gramatica();
+  }// else {
+    //mod2_eval_gramatica();
+  //}
 }
 
 /**
@@ -76,7 +88,7 @@ Gramatica::Gramatica(std::string& in_cfg, std::string& in_drv, std::string& out_
  *                  nuestro archivo
  */
 void Gramatica::eval_cfg(std::vector<Simbolo> ssymbols) {
-  for (size_t i = 1; i < ssymbols.size(); i++) {
+  for (size_t i = 0; i < ssymbols.size(); i++) {
     switch (i) {
       case 0:
         terminal_symbols(ssymbols[i].Get_Symbol());
@@ -106,7 +118,7 @@ void Gramatica::terminal_symbols(std::string symbols) {
       aux_symbol += symbols[i];
       terminal_symbols_.emplace_back(aux_symbol);
     } 
-  }
+  }  
 }
 
 /**
@@ -121,7 +133,7 @@ void Gramatica::no_terminal_symbols(std::string symbols) {
       aux_symbol += symbols[i];
       no_terminal_symbols_.emplace_back(aux_symbol);
     }
-  }
+  } 
 }
 
 /**
@@ -140,15 +152,15 @@ void Gramatica::productions(std::string symbols) {
   for (size_t i = 0; i < symbols.size(); i++) {
     std::string aux_symbol;
     if (symbols[i] != character_space && (symbols[i] != character_guion || symbols[i+1] != character_flecha) && symbols[i] != character_flecha) {
-        if (i == 0 ) {
-          aux_symbol += symbols[i];
-          before_producciones_.emplace_back(aux_symbol);
-        } else if (i == symbols.size() - 1){
-          expressions += symbols[i];
-          before_producciones_.emplace_back(expressions);
-        } else {
-          expressions += symbols[i];
-        }
+      if (i == 0 ) {
+        aux_symbol += symbols[i];
+        before_producciones_.emplace_back(aux_symbol);
+      } else if (i == symbols.size() - 1){
+        expressions += symbols[i];
+        before_producciones_.emplace_back(expressions);
+      } else {
+        expressions += symbols[i];
+      }
     } 
   }
 }
@@ -205,6 +217,9 @@ void Gramatica::eval_drv(std::vector<Simbolo> symbols) {
         derivaciones_.emplace_back(aux_symbols);
       } 
     }
+  }
+  for (size_t i = 0; i < derivaciones_.size(); i++) {
+    std::cout << derivaciones_[i].Get_Symbol() << std::endl;
   }
 }
 
@@ -269,6 +284,39 @@ Gramatica::cadena_do(std::string& anterior_aux, std::string& siguiente_aux) {
   int times_counter{0};
   for (size_t i = 0; i < anterior_aux.size(); i++) {
     if (((anterior_aux[i] == char_character_E || anterior_aux[i] == char_character_N || anterior_aux[i] == char_character_D)) && (times_counter == 0)) {
+      expresion_final_ += siguiente_aux;
+      times_counter++;
+    } else {
+      expresion_final_ += anterior_aux[i];
+    }
+  }
+  return expresion_final_;
+}
+
+
+void Gramatica::mod1_eval_gramatica() {
+  std::vector<Simbolo> gramatica;
+  std::string anterior_aux = character_S, siguiente_aux;
+  out_file_ << anterior_aux << " => ";
+  for (size_t i = 0; i < derivaciones_.size(); i++) {
+    if (i % 3 == 0 && i != 0) {
+      out_file_ << std::endl;
+    }
+    if (derivaciones_[i].Get_Symbol() == character_S) {
+      siguiente_aux = producciones_[0][stoi(derivaciones_[i+1].Get_Symbol()) - 1];
+      cadena_do(anterior_aux, siguiente_aux);
+      anterior_aux = expresion_final_;
+      out_file_ << expresion_final_ << " => ";
+    }
+  }
+}
+
+std::string 
+Gramatica::mod1_cadena_do(std::string& anterior_aux, std::string& siguiente_aux) {
+  expresion_final_ = "";
+  int times_counter{0};
+  for (size_t i = 0; i < anterior_aux.size(); i++) {
+    if ((anterior_aux[i] == char_character_S) && (times_counter == 0)) {
       expresion_final_ += siguiente_aux;
       times_counter++;
     } else {
