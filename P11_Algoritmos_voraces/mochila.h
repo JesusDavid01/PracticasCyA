@@ -45,11 +45,9 @@ class Mochila {
   float bondad_[size];
   float utilidad_[size];
   float utilidad_ordenada_[size];
-  float beneficio_;
   int posicion_[size];
   int numero_objetos_;
   int acotado_;
-  std::string solucion_;
   std::ifstream config_file_;
 
 };
