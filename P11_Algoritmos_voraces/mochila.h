@@ -29,13 +29,14 @@ const char space = ' ';
 
 class Mochila {
  public:
-  Mochila(std::string peso, std::string config_file);
+  Mochila(std::string peso, std::string config_file, int acotado);
 
   std::string eval_mochila();
   void make_weight_utility(std::vector<std::string>);
   void make_utility();
   void make_knapsack();
   void make_weight();
+  void make_no_acotado();
 
 
  private:
@@ -47,6 +48,7 @@ class Mochila {
   float beneficio_;
   int posicion_[size];
   int numero_objetos_;
+  int acotado_;
   std::string solucion_;
   std::ifstream config_file_;
 

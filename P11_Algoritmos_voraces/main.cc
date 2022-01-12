@@ -24,7 +24,7 @@
  * 
  */
 bool wrong_command(int argc) {
-  if (argc <= 2 || argc > 3) { // Si hay menos de 1 argumentos, da error
+  if (argc < 2 || argc > 4) { // Si hay menos de 1 argumentos, da error
     std::cout << "Error. Comando mal introducido" << std::endl;
     std::cout << "La forma correcta de introducir el comando es : ";
     std::cout << "./[nombre_de_archivo_ejecutable] [peso de la mochila] [fichero de configuración] " << std::endl;
@@ -50,9 +50,9 @@ bool print_help(std::string argv) {
         << "Donde nombre del archivo main es el nombre del programa que va"
            " a ejecutar"
         << std::endl
-        << "peso de la mochila es el peso máximo que va a soportar la mochila"
+        << "Peso de la mochila es el peso máximo que va a soportar la mochila"
         << std::endl
-        << "fichero de configuración es nombre del archivo de"
+        << "Fichero de configuración es nombre del archivo de"
            " entrada que contiene los detalles de los productos de la mochila"
         << std::endl
         << "Para poder utilizar el programa de forma adecuada debe introducir "
@@ -63,6 +63,14 @@ bool print_help(std::string argv) {
   return false;
 }
 
+int no_acotado(std::string argv) {
+  if (argv == "-u") { // En caso de que usemos -u, usaremos la mochila no acotada
+    return false;
+  } else {
+    return true;
+  }
+}
+
 /**
  * @param argc Contiene el número de argumentos que se leen por pantalla
  * @param argv Contiene el nombre de los argumentos después de la llamada
@@ -70,9 +78,15 @@ bool print_help(std::string argv) {
  */
 int main(int argc, char* argv[]) {
   if (wrong_command(argc)) {return 1;};
-  if (print_help(argv[1])) {return 1;}; 
-  std::string peso (argv[1]);  // Lee el archivo de entrada con la gramatica
-  std::string config_file (argv[2]);     // Lee el nombre del archivo de entrada con las reglas de produccion
-  Mochila archivos(peso, config_file);   // Creamos una objeto archivos de la clase File
+  if (print_help(argv[1])) {return 1;};
+  if (no_acotado(argv[1])) {
+    std::string peso (argv[1]);  // Lee el archivo de entrada con la gramatica
+    std::string config_file (argv[2]);     // Lee el nombre del archivo de entrada con las reglas de produccion
+    Mochila archivos(peso, config_file, 1);   // Creamos una objeto archivos de la clase Mochila
+  } else {
+    std::string peso (argv[2]);  // Lee el archivo de entrada con la gramatica
+    std::string config_file (argv[3]);     // Lee el nombre del archivo de entrada con las reglas de produccion
+    Mochila archivos(peso, config_file, 0);   // Creamos una objeto archivos de la clase Mochila
+  }
   return 0;
 }

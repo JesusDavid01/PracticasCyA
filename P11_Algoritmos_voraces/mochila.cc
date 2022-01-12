@@ -16,9 +16,10 @@
 
 #include "mochila.h"
 
-Mochila::Mochila(std::string peso, std::string config_file) {
+Mochila::Mochila(std::string peso, std::string config_file, int acotado) {
   peso_mochila_ = stoi(peso);
   config_file_.open(config_file);
+  acotado_ = acotado;
 
   std::string all_line, one_line;
   std::vector<std::string> aux;
@@ -34,7 +35,11 @@ Mochila::Mochila(std::string peso, std::string config_file) {
   make_weight_utility(aux);
   make_utility();
   make_knapsack();
-  make_weight();
+  if (acotado == 1) {
+    make_weight();
+  } else if (acotado == 0) {
+    make_no_acotado();
+  }
 }
 
 
@@ -107,7 +112,7 @@ Mochila::make_knapsack() {
 void
 Mochila::make_weight() {
   float peso_dinamico{0};
-  std::string solucion = "Solucion: ";
+  std::string solucion;
   float final_beneficio{0};
   for (int i = 1; i <= numero_objetos_; ++i) {
     if ((peso_dinamico + peso_[posicion_[i]]) < peso_mochila_) {
@@ -129,6 +134,33 @@ Mochila::make_weight() {
       solucion += aux1;
       final_beneficio += peso_aux * utilidad_ordenada_[i];
       break;
+    }
+  }
+  std::cout << "Beneficio: " << final_beneficio << std::endl;
+  std::cout << "Peso: " << peso_mochila_ << std::endl;
+  std::cout << "Solución: " << solucion << std::endl;
+}
+
+
+void
+Mochila::make_no_acotado() {
+  float peso_dinamico{0};
+  std::string solucion;
+  float final_beneficio{0};
+  for (int i = 1; i <= numero_objetos_; ++i) {
+    int object_time{0};
+    while ((peso_dinamico + peso_[posicion_[i]]) <= peso_mochila_) {
+      peso_dinamico += peso_[posicion_[i]];
+      object_time += 1;
+    } 
+    if (object_time > 0) {
+      std::string aux(std::to_string(posicion_[i]));
+      solucion += aux;
+      solucion += ":";
+      std::string aux_time(std::to_string(object_time));
+      solucion += aux_time;
+      solucion += " ";
+      final_beneficio += (bondad_[posicion_[i]] * object_time);
     }
   }
   std::cout << "Beneficio: " << final_beneficio << std::endl;
